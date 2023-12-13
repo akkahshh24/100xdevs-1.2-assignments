@@ -4,7 +4,18 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  // trim and convert to lower case
+  cleanStr = str.replace(/[\s]|[^a-zA-Z0-9]/g, '').toLowerCase();
+//   console.log("cleanStr: ", cleanStr);
+
+  reverseStr = cleanStr.split('').reverse().join('');
+//   console.log("reverseStr: ", reverseStr);
+  
+  return cleanStr == reverseStr
 }
 
+const str = "Able, was I ere I saw Elba!";
+console.log(isPalindrome(str));
+
 module.exports = isPalindrome;
+
