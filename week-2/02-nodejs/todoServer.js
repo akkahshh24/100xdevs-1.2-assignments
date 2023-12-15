@@ -45,5 +45,49 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  let todoList = [];
+
+  app.get("/todos", function(req, res) {
+    res.json(todoList);
+  });
+
+  app.get("/todos/:id", function(req, res) {
+    const todoId = parseInt(req.query.id);
+    const todoItem = todoList.find(item => item.id === todoId);
+
+    if (!todoItem) {
+      return res.status(404).json({
+        error: "Todo with given ID does not exist"
+      })
+    }
+    
+    return res.json(todoItem);
+  });
+  
+  app.post("/todos", function(req, res) {
+    
+  });
+  
+  app.put("/todos/:id", function(req, res) {});
+  
+  app.delete("/todos/:id", function(req, res) {
+    const todoId = parseInt(req.query.id);
+    const todoIndex = todoList.findIndex(item => item.id === todoId);
+
+    if (todoIndex === -1) {
+      return res.status(404).json({
+        error: "Todo with given ID does not exist"
+      })
+    }
+
+    todoList.splice(todoIndex, 1);
+
+    res.json({
+      message: "Todo with given ID was found and deleted"
+    });
+  });
+
+  app.listen(3000);
   
   module.exports = app;
