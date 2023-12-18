@@ -1,0 +1,7 @@
+akkahshh@akkahshh-HP-ProBook-440-G4:~$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+akkahshh@akkahshh-HP-ProBook-440-G4:~$ docker images 
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+akkahshh@akkahshh-HP-ProBook-440-G4:~$ docker volume ls
+DRIVER    VOLUME NAME
+akkahshh@akkahshh-HP-ProBook-440-G4:~$ 
