@@ -43,6 +43,7 @@
   const bodyParser = require('body-parser');
   
   const app = express();
+  const port = 3000;
   
   app.use(bodyParser.json());
 
@@ -53,33 +54,58 @@
   });
 
   app.get("/todos/:id", function(req, res) {
-    const todoId = parseInt(req.query.id);
+    const todoId = parseInt(req.params.id);
     const todoItem = todoList.find(item => item.id === todoId);
 
     if (!todoItem) {
       return res.status(404).json({
-        error: "Todo with given ID does not exist"
-      })
-    }
+        error: "Todo with given ID not found"
+      });
+    };
     
     return res.json(todoItem);
   });
   
   app.post("/todos", function(req, res) {
-    
+    const newTodo = {
+      id: Math.floor(Math.random() * 1000),
+      title: req.body.title,
+      description: req.body.description
+    };
+
+    todoList.push(newTodo);
+    res.status(201).json({
+      id: newTodo.id
+    });
   });
   
-  app.put("/todos/:id", function(req, res) {});
-  
-  app.delete("/todos/:id", function(req, res) {
-    const todoId = parseInt(req.query.id);
+  app.put("/todos/:id", function(req, res) {
+    const todoId = parseInt(req.params.id);
     const todoIndex = todoList.findIndex(item => item.id === todoId);
 
     if (todoIndex === -1) {
       return res.status(404).json({
-        error: "Todo with given ID does not exist"
-      })
-    }
+        error: "Todo with given ID not found"
+      });
+    };
+
+    todoList[todoIndex].title = req.body.title;
+    todoList[todoIndex].description = req.body.description;
+
+    res.status(200).json({
+      message: "Todo with given ID was successfully updated"
+    });
+  });
+  
+  app.delete("/todos/:id", function(req, res) {
+    const todoId = parseInt(req.params.id);
+    const todoIndex = todoList.findIndex(item => item.id === todoId);
+
+    if (todoIndex === -1) {
+      return res.status(404).json({
+        error: "Todo with given ID not found"
+      });
+    };
 
     todoList.splice(todoIndex, 1);
 
@@ -88,6 +114,14 @@
     });
   });
 
-  app.listen(3000);
+  app.use(function(req, res) {
+    res.status(404).json({
+      error: "Page not found"
+    });
+  });
+
+  app.listen(port, function() {
+    console.log(`Server is listening on port: ${port}`)
+  });
   
   module.exports = app;
