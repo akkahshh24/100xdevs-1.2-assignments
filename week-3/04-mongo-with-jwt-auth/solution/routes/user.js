@@ -5,26 +5,21 @@ const userMiddleware = require("../middleware/user");
 // User Routes
 router.post('/signup', (req, res) => {
     // Implement user signup logic
-    User.create({
-        username: req.body.username,
-        password: req.body.password
-    });
+});
 
-    res.json({
-        message: "User created successfully"
-    })
+router.post('/signin', (req, res) => {
+    // Implement admin signup logic
 });
 
 router.get('/courses', (req, res) => {
     // Implement listing all courses logic
-    Course.find().then(
-        courses => {
-            res.json(courses);
-    });
 });
 
 router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
+    const username = req.username;
+    console.log(username);
+
 });
 
 router.get('/purchasedCourses', userMiddleware, (req, res) => {
