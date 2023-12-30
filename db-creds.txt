@@ -1,3 +1,3 @@
-mongodb+srv://akkahshh24:q2KXdFJoDKqgKNb8@cluster0.alqyusn.mongodb.net/
+mongodb+srv://admin:JT52L8MI2X77QIlg@cluster0.alqyusn.mongodb.net/
 
 postgresql://akkahshh24:wNyu3zfLYVx2@ep-summer-snowflake-06656245.us-east-2.aws.neon.tech/test-db?sslmode=require
