@@ -1,6 +1,65 @@
-function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
-}
+const { Router } = require("express");
+const router = Router();
+const userMiddleware = require("../middleware/user");
+const { User, Course } = require("../db");
 
-module.exports = userMiddleware;
+// User Routes
+router.post('/signup', async (req, res) => {
+    // Implement user signup logic
+    await User.create({
+        username: req.body.username,
+        password: req.body.password
+    });
+
+    res.status(201).json({
+        status: "success",
+        message: "User created successfully."
+    })
+});
+
+router.get('/courses', async (req, res) => {
+    // Implement listing all courses logic
+    const response = await Course.find({});
+
+    res.status(200).json({
+        courses: response
+    });
+});
+
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
+    // Implement course purchase logic
+    const courseId = req.params.courseId;
+    const username = req.headers.username;
+
+    await User.updateOne({
+        username: username
+    }, {
+        "$push": {
+            purchasedCourses: courseId
+        }
+    });
+
+    res.status(201).json({
+        status: "success",
+        message: "Course purchased successfully."
+    })
+});
+
+router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+    // Implement fetching purchased courses logic
+    const user = await User.findOne({
+        username: req.headers.username
+    });
+
+    const courses = await Course.find({
+        _id: {
+            "$in": user.purchasedCourses
+        }
+    });
+
+    res.status(200).json({
+        courses : courses
+    });
+});
+
+module.exports = router
