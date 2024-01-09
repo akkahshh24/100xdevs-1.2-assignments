@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+let counter = 3;
+
 function Todo({title, description}) {
   return <div>
     <h1>
@@ -28,7 +30,7 @@ function App() {
 
   function addTodo() {
     setTodos([...todos, {
-      id: 4,
+      id: counter++,
       title: Math.random(),
       description: Math.random()
     }])
@@ -48,7 +50,7 @@ function App() {
       })} */}
 
       {/* arrow function */}
-      {todos.map(todo => <Todo title={todo.title} description={todo.description}></Todo>)}
+      {todos.map(todo => <Todo key={todo.id} title={todo.title} description={todo.description}></Todo>)}
     </div>
   )
 }
